@@ -1,38 +1,92 @@
-import { ChevronDown } from "lucide-react"
+"use client";
+
+import { ChevronDown } from "lucide-react";
+import { useState } from "react";
 
 export function Hero() {
-  return (
-    <section className="flex flex-col items-center justify-center min-h-[calc(100vh-100px)] text-center px-4 max-w-5xl mx-auto relative">
-      <h2 className="text-5xl font-light mb-6 leading-tight">
-        Build on <span className="font-normal">Mina Protocol</span>
-      </h2>
-      <p className="text-xl mb-8 max-w-2xl text-gray-600 dark:text-gray-300 font-light">
-        Experience the world's lightest blockchain with zero-knowledge proofs, enabling powerful decentralized
-        applications with complete privacy.
-      </p>
-      <div className="h-px w-16 bg-gray-200 dark:bg-gray-700 my-8" />
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-3xl mx-auto text-center mb-16">
-        <div className="p-6 rounded-xl border border-gray-100 dark:border-gray-800">
-          <h3 className="text-lg font-medium mb-2">Private</h3>
-          <p className="text-gray-600 dark:text-gray-400 text-sm">
-            Built with zero-knowledge proofs for complete privacy
-          </p>
-        </div>
-        <div className="p-6 rounded-xl border border-gray-100 dark:border-gray-800">
-          <h3 className="text-lg font-medium mb-2">Scalable</h3>
-          <p className="text-gray-600 dark:text-gray-400 text-sm">22kb blockchain that anyone can verify in seconds</p>
-        </div>
-        <div className="p-6 rounded-xl border border-gray-100 dark:border-gray-800">
-          <h3 className="text-lg font-medium mb-2">Secure</h3>
-          <p className="text-gray-600 dark:text-gray-400 text-sm">
-            Powered by participants and zero-knowledge technology
-          </p>
-        </div>
-      </div>
-      <div className="absolute bottom-8 animate-bounce">
-        <ChevronDown size={32} className="text-gray-400 dark:text-gray-600" />
-      </div>
-    </section>
-  )
-}
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
+  return (
+  
+    <div className="flex">
+      <nav className="bg-gray-800 p-4 h-screen fixed left-0 top-0 w-48">
+        <div className="flex flex-col space-y-4">
+          <div className="text-white text-lg mb-4 text-center">Petition Platform</div>
+          <a href="#" className="text-white hover:text-cyan-400 transition-colors">Home</a>
+          <div className="relative group">
+            <button className="text-white hover:text-cyan-400 transition-colors w-full text-left">
+              Petitions <ChevronDown className="inline-block ml-1" size={16} />
+            </button>
+            <div className="absolute left-full top-0 mt-0 w-48 bg-gray-800 rounded-md shadow-lg z-20 hidden group-hover:block border border-cyan-500/20">
+              <a href="#active-petitions" className="block px-4 py-2 text-white hover:bg-gray-700">Active Petitions</a>
+              <a href="#create-petition" className="block px-4 py-2 text-white hover:bg-gray-700">Create Petition</a>
+              <a href="#my-signatures" className="block px-4 py-2 text-white hover:bg-gray-700">My Signatures</a>
+            </div>
+          </div>
+          <a href="#wallet" className="text-white hover:text-cyan-400 transition-colors">Wallet</a>
+          <a href="#about" className="text-white hover:text-cyan-400 transition-colors">About</a>
+        </div>
+      </nav>
+
+      <main className="flex-1 ml-48">
+        <section className="flex flex-col items-center justify-center min-h-screen text-center px-4 max-w-5xl mx-auto">
+          <h2 className="text-5xl font-light mb-6 leading-tight">
+            Decentralized <span className="font-normal text-cyan-500">Petition Platform</span>
+          </h2>
+          <p className="text-xl mb-8 max-w-2xl text-gray-600 dark:text-gray-300 font-light">
+            Create and sign petitions with complete privacy using zero-knowledge proofs on the Mina Protocol blockchain.
+          </p>
+          
+          <div className="h-px w-32 bg-gradient-to-r from-transparent via-cyan-500 to-transparent my-12" />
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-4xl mx-auto text-center mb-16">
+            <div className="p-6 rounded-xl border border-cyan-500/20 backdrop-blur-sm hover:border-cyan-500/50 transition-all duration-300">
+              <h3 className="text-lg font-medium mb-2 text-cyan-400">Privacy First</h3>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">
+                Sign petitions while keeping your identity protected through zero-knowledge proofs
+              </p>
+            </div>
+            <div className="p-6 rounded-xl border border-cyan-500/20 backdrop-blur-sm hover:border-cyan-500/50 transition-all duration-300">
+              <h3 className="text-lg font-medium mb-2 text-cyan-400">Blockchain Powered</h3>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">
+                Built on Mina Protocol for transparency, security, and decentralization
+              </p>
+            </div>
+            <div className="p-6 rounded-xl border border-cyan-500/20 backdrop-blur-sm hover:border-cyan-500/50 transition-all duration-300">
+              <h3 className="text-lg font-medium mb-2 text-cyan-400">Easy to Use</h3>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">
+                Simple interface to create, browse, and sign petitions securely
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-12 space-y-8">
+            <h3 className="text-2xl font-light mb-4">Powered by Modern Technology</h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
+              <div className="p-4 rounded-lg border border-cyan-500/20 backdrop-blur-sm">
+                <h4 className="text-cyan-400 font-medium">Mina Protocol</h4>
+                <p className="text-sm text-gray-400">Lightweight blockchain</p>
+              </div>
+              <div className="p-4 rounded-lg border border-cyan-500/20 backdrop-blur-sm">
+                <h4 className="text-cyan-400 font-medium">Zero Knowledge</h4>
+                <p className="text-sm text-gray-400">Privacy preservation</p>
+              </div>
+              <div className="p-4 rounded-lg border border-cyan-500/20 backdrop-blur-sm">
+                <h4 className="text-cyan-400 font-medium">Next.js</h4>
+                <p className="text-sm text-gray-400">Modern web framework</p>
+              </div>
+              <div className="p-4 rounded-lg border border-cyan-500/20 backdrop-blur-sm">
+                <h4 className="text-cyan-400 font-medium">TypeScript</h4>
+                <p className="text-sm text-gray-400">Type-safe code</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="absolute bottom-8 animate-bounce">
+            <ChevronDown size={32} className="text-cyan-500/50" />
+          </div>
+        </section>
+      </main>
+    </div>
+  );
+}

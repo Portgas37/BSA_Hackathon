@@ -1,10 +1,15 @@
-import { Field, SmartContract, state, State, method, PublicKey, Signature } from 'o1js';
+import { Field, SmartContract, state, State, method, PublicKey, Signature, PrivateKey } from 'o1js';
 
 import { Petition } from './Petition';
 
 export class SignPetitions extends SmartContract {
     
-    static universityPublicKey = PublicKey.fromBase58("B62qkC7xvYVg8xwJjksomeExamplePublicKeyString");
+    static universityKey: PrivateKey = PrivateKey.random();
+    static get universityPublicKey(): PublicKey {
+    return SignPetitions.universityKey.toPublicKey();
+  }
+  
+    
     
     @state(Field) petitionHash = State<Field>();
 
@@ -19,7 +24,9 @@ export class SignPetitions extends SmartContract {
         studentPublicKey: PublicKey,
         petition: Petition
     ): Promise<void> {
+        this.petitionHash.requireEquals(this.petitionHash.get());
         this.petitionHash.get().assertEquals(petition.hash(), "Petition hash mismatch!");
+        
 
         const isValidSignature = signature.verify(SignPetitions.universityPublicKey, studentPublicKey.toFields());
         isValidSignature.assertTrue("Invalid signature!");

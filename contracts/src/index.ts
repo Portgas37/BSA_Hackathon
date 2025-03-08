@@ -1,4 +1,5 @@
-import { Petition } from './petition.js';
-
-
+import { Petition } from './Petition.js';
 export { Petition };
+
+import { SignPetitions } from './SignPetition.js';
+export { SignPetitions };

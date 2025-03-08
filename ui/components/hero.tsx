@@ -2,13 +2,15 @@
 
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
+import { AboutUs } from './AboutUs';
+import { SecondPanel } from './second-panel';
 
 export function Hero() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   return (
-  
     <div className="flex">
+      {/* Navigation Sidebar */}
       <nav className="bg-gray-800 p-4 h-screen fixed left-0 top-0 w-48">
         <div className="flex flex-col space-y-4">
           <div className="text-white text-lg mb-4 text-center">Petition Platform</div>
@@ -24,11 +26,13 @@ export function Hero() {
             </div>
           </div>
           <a href="#wallet" className="text-white hover:text-cyan-400 transition-colors">Wallet</a>
-          <a href="#about" className="text-white hover:text-cyan-400 transition-colors">About</a>
+          <a href="#about" className="text-white hover:text-cyan-400 transition-colors">About us</a>
         </div>
       </nav>
 
+      {/* Main Content */}
       <main className="flex-1 ml-48">
+        {/* Hero Section */}
         <section className="flex flex-col items-center justify-center min-h-screen text-center px-4 max-w-5xl mx-auto">
           <h2 className="text-5xl font-light mb-6 leading-tight">
             Decentralized <span className="font-normal text-cyan-500">Petition Platform</span>
@@ -39,6 +43,7 @@ export function Hero() {
           
           <div className="h-px w-32 bg-gradient-to-r from-transparent via-cyan-500 to-transparent my-12" />
           
+          {/* Feature Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-4xl mx-auto text-center mb-16">
             <div className="p-6 rounded-xl border border-cyan-500/20 backdrop-blur-sm hover:border-cyan-500/50 transition-all duration-300">
               <h3 className="text-lg font-medium mb-2 text-cyan-400">Privacy First</h3>
@@ -60,32 +65,15 @@ export function Hero() {
             </div>
           </div>
 
-          <div className="mt-12 space-y-8">
-            <h3 className="text-2xl font-light mb-4">Powered by Modern Technology</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
-              <div className="p-4 rounded-lg border border-cyan-500/20 backdrop-blur-sm">
-                <h4 className="text-cyan-400 font-medium">Mina Protocol</h4>
-                <p className="text-sm text-gray-400">Lightweight blockchain</p>
-              </div>
-              <div className="p-4 rounded-lg border border-cyan-500/20 backdrop-blur-sm">
-                <h4 className="text-cyan-400 font-medium">Zero Knowledge</h4>
-                <p className="text-sm text-gray-400">Privacy preservation</p>
-              </div>
-              <div className="p-4 rounded-lg border border-cyan-500/20 backdrop-blur-sm">
-                <h4 className="text-cyan-400 font-medium">Next.js</h4>
-                <p className="text-sm text-gray-400">Modern web framework</p>
-              </div>
-              <div className="p-4 rounded-lg border border-cyan-500/20 backdrop-blur-sm">
-                <h4 className="text-cyan-400 font-medium">TypeScript</h4>
-                <p className="text-sm text-gray-400">Type-safe code</p>
-              </div>
-            </div>
-          </div>
-
+          {/* Scroll Indicator */}
           <div className="absolute bottom-8 animate-bounce">
             <ChevronDown size={32} className="text-cyan-500/50" />
           </div>
         </section>
+
+        {/* Additional Panels */}
+        <SecondPanel />
+        <AboutUs />
       </main>
     </div>
   );

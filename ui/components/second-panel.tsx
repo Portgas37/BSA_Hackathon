@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { motion, useAnimation } from "framer-motion"
+import { ChevronDown } from "lucide-react"
 
 export function SecondPanel() {
   const [isVisible, setIsVisible] = useState(false)
@@ -17,8 +18,8 @@ export function SecondPanel() {
         }
       },
       {
-        threshold: 0.1, // Trigger when 10% of the element is visible
-      },
+        threshold: 0.1,
+      }
     )
 
     if (ref.current) {
@@ -68,31 +69,32 @@ export function SecondPanel() {
   ]
 
   return (
-      <section 
-        ref={ref} 
-        className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col items-center justify-center py-20 w-full ml-48"
+    <section 
+      ref={ref} 
+      className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col items-center justify-center py-20 w-full"
+    >
+      <motion.div 
+        initial="hidden" 
+        animate={controls} 
+        variants={variants} 
+        className="container mx-auto px-4 max-w-6xl"
       >
-        <motion.div 
-          initial="hidden" 
-          animate={controls} 
-          variants={variants} 
-          className="container mx-auto px-4 max-w-6xl"
-        >
-          <div className="text-center mb-16">
-            <h2 className="text-5xl font-light mb-6">Active Petitions</h2>
-            <p className="text-xl max-w-2xl mx-auto text-gray-600 dark:text-gray-300 mb-12">
-              Join our community in making a difference. Sign petitions anonymously using zero-knowledge proofs.
-            </p>
-          </div>
-  
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {petitions.map((petition, i) => (
-              <motion.div
-                key={petition.title}
-                custom={i}
-                variants={cardVariants}
-                className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-cyan-500/20 hover:border-cyan-500/50 transition-all"
-              >
+        {/* Petitions Section */}
+        <div className="text-center mb-16">
+          <h2 className="text-5xl font-light mb-6">Active Petitions</h2>
+          <p className="text-xl max-w-2xl mx-auto text-gray-600 dark:text-gray-300 mb-12">
+            Join our community in making a difference. Sign petitions anonymously using zero-knowledge proofs.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {petitions.map((petition, i) => (
+            <motion.div
+              key={petition.title}
+              custom={i}
+              variants={cardVariants}
+              className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-cyan-500/20 hover:border-cyan-500/50 transition-all"
+            >
               <h3 className="text-xl font-medium mb-2 text-cyan-500">{petition.title}</h3>
               <p className="text-gray-600 dark:text-gray-400 mb-4">{petition.description}</p>
               <div className="flex justify-between items-center">
@@ -110,8 +112,17 @@ export function SecondPanel() {
             </motion.div>
           ))}
         </div>
+
+        {/* Scroll Indicator */}
+        <div className="mt-16 flex justify-center">
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ repeat: Infinity, duration: 1.5 }}
+          >
+            <ChevronDown size={32} className="text-cyan-500/50" />
+          </motion.div>
+        </div>
       </motion.div>
     </section>
   )
 }
-

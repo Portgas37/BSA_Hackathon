@@ -4,34 +4,14 @@ import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { AboutUs } from './AboutUs';
 import { SecondPanel } from './second-panel';
+import { Navigation } from './navigation';
 
 export function Hero() {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-
   return (
     <div className="flex">
-      {/* Navigation Sidebar */}
-      <nav className="bg-gray-800 p-4 h-screen fixed left-0 top-0 w-48">
-        <div className="flex flex-col space-y-4">
-          <div className="text-white text-lg mb-4 text-center">Petition Platform</div>
-          <a href="#" className="text-white hover:text-cyan-400 transition-colors">Home</a>
-          <div className="relative group">
-            <button className="text-white hover:text-cyan-400 transition-colors w-full text-left">
-              Petitions <ChevronDown className="inline-block ml-1" size={16} />
-            </button>
-            <div className="absolute left-full top-0 mt-0 w-48 bg-gray-800 rounded-md shadow-lg z-20 hidden group-hover:block border border-cyan-500/20">
-              <a href="#active-petitions" className="block px-4 py-2 text-white hover:bg-gray-700">Active Petitions</a>
-              <a href="#create-petition" className="block px-4 py-2 text-white hover:bg-gray-700">Create Petition</a>
-              <a href="#my-signatures" className="block px-4 py-2 text-white hover:bg-gray-700">My Signatures</a>
-            </div>
-          </div>
-          <a href="#wallet" className="text-white hover:text-cyan-400 transition-colors">Wallet</a>
-          <a href="#about" className="text-white hover:text-cyan-400 transition-colors">About us</a>
-        </div>
-      </nav>
-
+       <Navigation />
       {/* Main Content */}
-      <main className="flex-1 ml-48">
+      <main className="flex-1 ml-12 transition-all duration-300">
         {/* Hero Section */}
         <section className="flex flex-col items-center justify-center min-h-screen text-center px-4 max-w-5xl mx-auto">
           <h2 className="text-5xl font-light mb-6 leading-tight">

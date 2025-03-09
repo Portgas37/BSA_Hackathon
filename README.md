@@ -17,7 +17,7 @@ Our Zero Knowledge Petition App addresses privacy concerns in digital petitions.
 ## Technologies Used
 
 - **Blockchain**: Mina Protocol
-- **Smart Contracts**: o1js (formerly SnarkyJS)
+- **Smart Contracts**: o1js 
 - **Cryptography**: zk-SNARKs (Zero Knowledge Proofs)
 - **Development Tools**: Mina CLI, Git
 

@@ -4,7 +4,7 @@ import { Petition } from './Petition';
 
 export class SignPetitions extends SmartContract {
     
-    static universityKey: PrivateKey = PrivateKey.random();
+    static universityKey: PrivateKey = PrivateKey.fromBase58("EKFVrBNzyKRepfmFhvQ9Qqy2jc2CQZzn1hSHxNpHwaACrKm4ZQAr");
     static get universityPublicKey(): PublicKey {
     return SignPetitions.universityKey.toPublicKey();
   }

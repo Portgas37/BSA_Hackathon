@@ -4,20 +4,26 @@ import { useEffect, useState } from "react";
 
 // Key used in localStorage
 const LOCAL_STORAGE_KEY = "MINA";
+const LOCAL_STORAGE_RAW = "MINA_RAW";
 
 export function useMinaWallet() {
   const [connected, setConnected] = useState(false);
   const [address, setAddress] = useState<string | null>(null);
+  const [rawAddress, setRawAddress] = useState<string | null>(null);
   const [isConnecting, setIsConnecting] = useState(false);
 
   // On mount, fetch any stored wallet address from localStorage
   useEffect(() => {
     if (typeof window !== "undefined") {
       const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+      const storedRaw = localStorage.getItem(LOCAL_STORAGE_RAW);
       if (stored) {
         setAddress(JSON.parse(stored));
         setConnected(true);
       }
+      if (storedRaw) {
+            setRawAddress(JSON.parse(storedRaw));
+         }
     }
   }, []);
 
@@ -37,9 +43,11 @@ export function useMinaWallet() {
 
       // Persist in localStorage
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(displayAddress));
-      
+      localStorage.setItem(LOCAL_STORAGE_RAW, JSON.stringify(rawAddress));
+
       // Update React state
       setAddress(displayAddress);
+      setRawAddress(rawAddress);
       setConnected(true);
     } catch (error) {
       console.error("Failed to connect wallet:", error);
@@ -52,13 +60,16 @@ export function useMinaWallet() {
   // ---- disconnect function ----
   function disconnect() {
     localStorage.removeItem(LOCAL_STORAGE_KEY);
+    localStorage.removeItem(LOCAL_STORAGE_RAW);
     setAddress(null);
+    setRawAddress(null);
     setConnected(false);
   }
 
   return {
     connected,
     address,
+    rawAddress,   // full base58
     isConnecting,
     connect,
     disconnect,

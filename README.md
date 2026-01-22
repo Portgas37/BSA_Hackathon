@@ -1,62 +1,161 @@
-# Zero Knowledge Petition App
+# zkPetition
 
-## Project Overview
+A privacy-preserving petition platform built on Mina Protocol using zero-knowledge proofs.
 
-This repository contains our project developed for the EPFL Blockchain Student Association (BSA) Hackathon. We built a Zero Knowledge Petition Application leveraging the Mina blockchain to ensure secure and private petition signing using zero-knowledge proofs.
+## Problem
 
-## Description
+Traditional petition platforms expose signer identities, which can lead to retaliation, discrimination, or privacy violations. Users should be able to express support for causes without revealing their identity while still ensuring each person can only sign once.
 
-Our Zero Knowledge Petition App addresses privacy concerns in digital petitions. By employing Mina's lightweight blockchain and zero-knowledge proofs (zk-SNARKs), we ensure user anonymity while verifying petition signatures. Initially, we created simple contracts for petition creation and signing. We then enhanced these with recursion and advanced concepts using o1js to increase scalability and efficiency.
+## Solution
 
-## Key Features
+zkPetition uses zk-SNARKs on Mina Protocol to enable:
 
-- Secure and anonymous petition signing using zero-knowledge proofs.
-- Recursive zk-SNARKs to handle scalability.
-- Advanced contract optimization with o1js.
+- **Anonymous signing**: Signers prove they're authorized without revealing identity
+- **Single-vote enforcement**: Nullifiers prevent double-signing without tracking who signed
+- **Verifiable counts**: Anyone can verify the signature count is accurate
 
-## Technologies Used
+## Architecture
 
-- **Blockchain**: Mina Protocol
-- **Smart Contracts**: o1js 
-- **Cryptography**: zk-SNARKs (Zero Knowledge Proofs)
-- **Development Tools**: Mina CLI, Git
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                         Frontend (Next.js)                       │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────────┐  │
+│  │ Wallet Hook │  │  Petition   │  │     Web Worker          │  │
+│  │ (Auro)      │  │  Components │  │ (o1js proof generation) │  │
+│  └─────────────┘  └─────────────┘  └─────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    Smart Contracts (o1js)                        │
+│  ┌─────────────────────────────────────────────────────────┐    │
+│  │ SignPetitions                                            │    │
+│  │  • petitionHash: Field (commitment to petition state)    │    │
+│  │  • nullifierRoot: Field (Merkle root of used nullifiers) │    │
+│  │                                                          │    │
+│  │ Methods:                                                 │    │
+│  │  • initState(petitionHash)                               │    │
+│  │  • vote(signature, studentPublicKey, petition, witness)  │    │
+│  └─────────────────────────────────────────────────────────┘    │
+│                                                                  │
+│  ┌─────────────────────────────────────────────────────────┐    │
+│  │ SignPetitionRecursive (Scalable Version)                 │    │
+│  │  • SignProofProgram: Verifies individual signatures      │    │
+│  │  • SignAggregationProgram: Recursively aggregates proofs │    │
+│  │  • submitProof: Batch-updates petition state             │    │
+│  └─────────────────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                       Mina Protocol                              │
+│           (22KB blockchain, succinct state verification)         │
+└─────────────────────────────────────────────────────────────────┘
+```
 
-## Installation
+### Key Components
 
-To set up the project locally:
+**Petition Struct**
+- `petitionId`: Unique identifier
+- `title`, `description`: Petition content (hashed on-chain)
+- `petitionCount`: Number of signatures
+- `isActive`: Whether petition accepts signatures
+
+**Nullifier System**
+- Nullifier = `Poseidon.hash(studentPublicKey, petitionId)`
+- Stored in Merkle Map (off-chain) with on-chain root
+- Prevents double-signing without revealing who signed
+
+**Two Contract Versions**
+1. `SignPetitions`: Simple version, one transaction per signature
+2. `SignPetitionRecursive`: Uses recursive proofs to batch signatures, reducing on-chain transactions
+
+## Setup
+
+### Prerequisites
+
+- Node.js >= 18.14.0
+- [Auro Wallet](https://www.aurowallet.com/) browser extension
+
+### Installation
 
 ```bash
 git clone https://github.com/Portgas37/BSA_Hackathon.git
 cd BSA_Hackathon
-# Install dependencies
 npm install
 ```
 
-## Usage
-
-To run the project locally:
+### Development
 
 ```bash
-# Compile and deploy contracts
-npm run build
-npm run deploy
+# Run contract tests
+npm test
 
-# Run the site locally
+# Build contracts
+npm run build
+
+# Start UI development server
 npm run dev
 ```
 
-## Team
+Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-- Ouazzani Adam 
-- Ouazzani Jad
-- Lataoui Ismail
-- Hamirifou Mehdi
-- Bengelloun Amine
+### Testing
 
-## Acknowledgements
+```bash
+cd contracts
+npm test              # Run all tests
+npm run test:watch    # Watch mode
+npm run coverage      # Coverage report
+```
 
-- [EPFL Blockchain Student Association](https://www.bsaepfl.ch)
-- Mina Protocol 
-- Hackathon Sponsors
+## Project Structure
 
----
+```
+├── contracts/
+│   └── src/
+│       ├── Petition.ts              # Petition data structure
+│       ├── SignPetition.ts          # Basic voting contract
+│       ├── SignPetitionRecursive.ts # Recursive proof version
+│       └── *.test.ts                # Contract tests
+├── ui/
+│   ├── app/
+│   │   ├── page.tsx                 # Home page
+│   │   ├── create-petition/         # Petition creation
+│   │   └── zkappWorker.ts           # Web Worker for proofs
+│   ├── components/
+│   │   ├── hero.tsx                 # Landing section
+│   │   ├── petition-list.tsx        # Active petitions
+│   │   └── wallet-button.tsx        # Wallet connection
+│   └── hooks/
+│       ├── use-mina-wallet.ts       # Wallet state management
+│       └── useZkappWorker.ts        # Worker client
+└── package.json
+```
+
+## How It Works
+
+1. **University Authorization**: A trusted authority (university) signs student public keys, creating credentials
+2. **Signing a Petition**:
+   - User connects Auro wallet
+   - Frontend generates nullifier from (publicKey, petitionId)
+   - Proof verifies: valid credential + nullifier not yet used
+   - On-chain: Merkle root updated, petition count incremented
+3. **Privacy Guarantee**: The blockchain only stores hashes and Merkle roots—no identifiable data
+
+## Limitations
+
+- University key is hardcoded (production would use proper key management)
+- Local blockchain for development (testnet/mainnet deployment pending)
+- Nullifier map stored off-chain (requires trusted sequencer or decentralized storage)
+
+## Tech Stack
+
+- **Blockchain**: [Mina Protocol](https://minaprotocol.com/)
+- **Smart Contracts**: [o1js](https://docs.minaprotocol.com/zkapps/o1js)
+- **Frontend**: Next.js 14, React 18, Tailwind CSS
+- **Wallet**: Auro Wallet
+
+## License
+
+Apache-2.0

@@ -1,26 +1,24 @@
-# Mina zkApp: Contracts
+# zkPetition Contracts
 
-This template uses TypeScript.
+Smart contracts for the zkPetition platform using o1js.
 
-## How to build
+## Contracts
 
-```sh
-npm run build
-```
+- **Petition**: Data structure representing a petition (id, title, description, count, status)
+- **SignPetitions**: Basic voting contract with nullifier-based double-vote prevention
+- **SignPetitionRecursive**: Recursive proof version for batching signatures
 
-## How to run tests
+## Commands
 
-```sh
-npm run test
-npm run testw # watch mode
-```
-
-## How to run coverage
-
-```sh
-npm run coverage
+```bash
+npm run build        # Compile TypeScript
+npm run test         # Run tests
+npm run test:watch   # Watch mode
+npm run coverage     # Coverage report
+npm run lint         # Lint and fix
+npm run format       # Format code
 ```
 
 ## License
 
-[Apache-2.0](LICENSE)
+Apache-2.0

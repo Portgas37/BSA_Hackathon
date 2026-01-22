@@ -1,19 +1,11 @@
-"use client"
+"use client";
 
-import { useMinaWallet } from "@/hooks/use-mina-wallet"
-import { Button } from "@/components/ui/button"
-import { Loader2 } from "lucide-react"
+import { useMinaWallet } from "@/hooks/use-mina-wallet";
+import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 
 export function WalletButton() {
-  const { connected, address, isConnecting, connect, disconnect } = useMinaWallet()
-
-  const handleConnect = async () => {
-    try {
-      await connect()
-    } catch (error) {
-      console.error("Failed to connect:", error)
-    }
-  }
+  const { connected, address, isConnecting, connect, disconnect } = useMinaWallet();
 
   if (connected) {
     return (
@@ -29,14 +21,14 @@ export function WalletButton() {
           Disconnect
         </Button>
       </div>
-    )
+    );
   }
 
   return (
     <Button
-      onClick={handleConnect}
+      onClick={connect}
       disabled={isConnecting}
-      className="bg-black hover:bg-gray-800 text-white dark:bg-white dark:hover:bg-gray-200 dark:text-black font-medium px-6 py-2 rounded-md transition-all duration-200 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 dark:focus:ring-gray-100"
+      className="bg-gray-900 hover:bg-gray-800 text-white dark:bg-white dark:hover:bg-gray-200 dark:text-black font-medium px-6 py-2 rounded-md transition-all"
     >
       {isConnecting ? (
         <>
@@ -47,6 +39,5 @@ export function WalletButton() {
         "Connect Wallet"
       )}
     </Button>
-  )
+  );
 }
-

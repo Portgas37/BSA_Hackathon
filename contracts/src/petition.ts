@@ -2,45 +2,38 @@ import { Field, Poseidon, Struct, CircuitString, Bool } from 'o1js';
 
 export class Petition extends Struct({
   petitionId: Field,
-
   title: CircuitString,
-
   description: CircuitString,
-
   petitionCount: Field,
-
-  isActive: Bool})
-  {
-    /**
-   * Hashes all the details of the petition into a single Field element.
-   * It converts string and boolean values into Field elements and then
-   * combines them with the other Field properties before applying the Poseidon hash.
-   *
-   * @returns {Field} A Field element representing the hash of the petition.
-   */
+  isActive: Bool,
+}) {
   hash(): Field {
-    
-    // Return the Poseidon hash of the combined fields.
-    return Poseidon.hash([this.petitionId,
+    return Poseidon.hash([
+      this.petitionId,
       this.title.hash(),
       this.description.hash(),
       this.petitionCount,
-      this.isActive.toField()]);
+      this.isActive.toField(),
+    ]);
   }
 
-  /**
-   * Returns a new Petition instance with the petitionCount incremented by one.
-   *
-   * @returns {Petition} A new Petition with an incremented petitionCount.
-   */
   incrementCount(): Petition {
     return new Petition({
       petitionId: this.petitionId,
       title: this.title,
       description: this.description,
       petitionCount: this.petitionCount.add(Field(1)),
-      isActive: this.isActive
+      isActive: this.isActive,
     });
   }
 
+  setPetitionCount(newCount: Field): Petition {
+    return new Petition({
+      petitionId: this.petitionId,
+      title: this.title,
+      description: this.description,
+      petitionCount: newCount,
+      isActive: this.isActive,
+    });
+  }
 }

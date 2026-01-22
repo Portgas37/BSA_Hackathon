@@ -1,6 +1,32 @@
 {
+  "name": "zk-petition",
+  "version": "1.0.0",
+  "description": "Privacy-preserving petition platform using zero-knowledge proofs on Mina Protocol",
+  "private": true,
+  "scripts": {
+    "build": "npm run build --workspace=contracts",
+    "test": "npm run test --workspace=contracts",
+    "dev": "npm run dev --workspace=ui",
+    "lint": "npm run lint --workspace=contracts && npm run lint --workspace=ui"
+  },
+  "workspaces": [
+    "contracts",
+    "ui"
+  ],
   "dependencies": {
     "mina-signer": "^3.0.7",
     "o1js": "^2.3.0"
-  }
+  },
+  "engines": {
+    "node": ">=18.14.0"
+  },
+  "keywords": [
+    "mina",
+    "zkapp",
+    "zero-knowledge",
+    "petition",
+    "privacy",
+    "blockchain"
+  ],
+  "license": "Apache-2.0"
 }

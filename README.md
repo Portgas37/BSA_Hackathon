@@ -155,7 +155,3 @@ npm run coverage      # Coverage report
 - **Smart Contracts**: [o1js](https://docs.minaprotocol.com/zkapps/o1js)
 - **Frontend**: Next.js 14, React 18, Tailwind CSS
 - **Wallet**: Auro Wallet
-
-## License
-
-Apache-2.0
